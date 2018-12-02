@@ -22,12 +22,11 @@ namespace bos.Repositories
             Location Location = new Location();
             Location.LocationId = 1;
             Location.Name = "Test Location";
-            Dictionary<int, UseType> UseTypes = new Dictionary<int, UseType>();
+            HashSet<UseType> UseTypes = new HashSet<UseType>();
             UseType i = new UseType(1, "Hiking", "All about da feet");
-            UseTypes.Add(1, i);
+            Location.AddUse(i);
             i = new UseType(3, "Horse Riding", "Fred'll carry it");
-            UseTypes.Add(2, i);
-            Location.Uses = UseTypes.Values.ToList();
+            Location.AddUse(i);
             _store.TryAdd(1, Location);
         }
 

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 /// <summary>
 /// Summary description for a an Location e.g.  hike up to the falls.   
@@ -14,12 +16,25 @@ namespace bos.Models
         {
         }
 
-        public int LocationId { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        // TODO: validate UseTypes
-        public List<UseType> Uses { get; set; } = new List<UseType>();
+        [Required]
+        [Range(-1, int.MaxValue)]
+        public int LocationId { get; set; } = -1;
 
-        // rcarver - would be useful to have add/remove UseTypes depending on front end implementation
+        [Required]
+        [StringLength(100)]
+        public string Name { get; set; }
+
+        [StringLength(1000)]
+        public string Description { get; set; }
+
+        private HashSet<UseType> _Uses = new HashSet<UseType>();
+
+        public bool AddUse(UseType use) => _Uses.Add(use);
+
+        public bool RemoveUse(UseType use) => _Uses.Remove(use);
+
+        public void ClearUses() => _Uses.Clear();
+
+        public List<UseType> GetUses() => _Uses.ToList();
     }
 }
